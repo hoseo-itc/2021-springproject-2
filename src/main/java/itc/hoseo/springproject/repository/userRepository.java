@@ -1,7 +1,7 @@
 package itc.hoseo.springproject.repository;
 
-import itc.hoseo.springproject.domain.user;
+import itc.hoseo.springproject.domain.User;
 
 public interface userRepository {
-	public void save(user user);
+	public void save(User user);
 }

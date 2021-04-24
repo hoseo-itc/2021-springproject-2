@@ -1,7 +1,7 @@
 package itc.hoseo.springproject.repository;
 
-import itc.hoseo.springproject.domain.address;
+import itc.hoseo.springproject.domain.Address;
 
 public interface addressRepository {
-	public void save(address address);
+	public void save(Address address);
 }

@@ -1,7 +1,7 @@
 package itc.hoseo.springproject.repository;
 
-import itc.hoseo.springproject.domain.review;
+import itc.hoseo.springproject.domain.Review;
 
 public interface reviewRepository {
-	public void save(review review);
+	public void save(Review review);
 }

@@ -1,7 +1,7 @@
 package itc.hoseo.springproject.repository;
 
-import itc.hoseo.springproject.domain.menu;
+import itc.hoseo.springproject.domain.Menu;
 
 public interface menuRepository {
-	public void save(menu menu);
+	public void save(Menu menu);
 }
