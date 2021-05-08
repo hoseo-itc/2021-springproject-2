@@ -6,8 +6,10 @@ import lombok.Data;
 public class Address {
 	private String id, address;
 	
-	Address(String id, String address){
+	public Address(String id, String address){
 		this.id = id;
 		this.address = address;
 	}
+	
+	public Address() {};
 }
