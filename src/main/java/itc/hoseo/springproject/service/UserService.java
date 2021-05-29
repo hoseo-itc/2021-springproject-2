@@ -50,8 +50,7 @@ public class UserService {
 	}
 	
 	public User findById(String id) {
-		User u = userRepository.findById(id);
-		u.setAddress(addressRepository.findById(u.getId()));
-		return u;
+		
+		return userRepository.findById(id);
 	}
 }
