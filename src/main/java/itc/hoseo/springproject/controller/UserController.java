@@ -55,7 +55,12 @@ public class UserController {
 	public String joinForm() {
 		return "user/join";
 	}
-
+	
+	@GetMapping("/addressMap")
+	public String addressMap() {
+		return "user/addressMap";
+	}
+	
 	@PostMapping("/join")
 	public String join(UserJoinFormDTO form) {
 		userService.join(form.getUser());
