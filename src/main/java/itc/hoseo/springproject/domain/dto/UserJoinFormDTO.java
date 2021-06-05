@@ -17,7 +17,7 @@ public class UserJoinFormDTO {
 	public User getUser() {
 		return new User(id, name, phone, new Address(id, address));
 	}
-	
+
 	public UserJoinFormDTO() {
 	}
 	
