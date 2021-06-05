@@ -37,64 +37,34 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import itc.hoseo.springproject.domain.User;
-import itc.hoseo.springproject.domain.dto.UserJoinFormDTO;
-import itc.hoseo.springproject.repository.UserRepository;
-import itc.hoseo.springproject.service.KakaoLoginService;
-import itc.hoseo.springproject.service.UserService;
+import itc.hoseo.springproject.service.RestaurantService;
 
 @Controller
-public class UserController {
+public class RestController {
 
 	@Autowired
-	private UserService userService;
+	private RestaurantService restService;
 
-	@Autowired
-	private KakaoLoginService kakaoLoginService;
 	
 	@GetMapping("/join")
 	public String joinForm() {
-		return "user/join";
+		return "rest/join";
 	}
 
-	@PostMapping("/join")
-	public String join(UserJoinFormDTO form) {
-		userService.join(form.getUser());
-		return "redirect:/list";
-	}
+//	@PostMapping("/join")
+//	public String join(UserJoinFormDTO form) {
+//		restService.join(form.getUser());
+//		return "redirect:/list";
+//	}
 
 	@GetMapping("/list")
 	public String list(ModelMap mm) {
-		mm.put("userList", userService.findAll());
-		return "user/list";
+		mm.put("restList", restService.findAll());
+		return "rest/list";
 	}
 
 	
-	@GetMapping("/userProfile")
-	public String userProfile(HttpSession session, ModelMap mm) {
-		
-		return "user/userProfile";
-	}
-	@PostMapping("/userProfile")
-	public String kakaojoin(UserJoinFormDTO form) {
-		userService.join(form.getUser());
-		return "redirect:/list";
-	}
-	@GetMapping("/login")
-	public String userLogin(){
-		
-		return "user/login";
-	}
+
 	
 	
-	
-	@GetMapping("/auth")
-	public String kakaoCallback(String code, HttpSession session) throws JsonMappingException, JsonProcessingException {
-		String accessToken = kakaoLoginService.getKakaoAccessToken(code).toString();
-		
-		session.setAttribute("email", kakaoLoginService.kakaoLogin(accessToken).getEmail());
-		session.setAttribute("imgUrl", kakaoLoginService.kakaoLogin(accessToken).getImgUrl());
-		session.setAttribute("nickName", kakaoLoginService.kakaoLogin(accessToken).getNickName());
-		
-		return "redirect:/userProfile";
-	}
 }
