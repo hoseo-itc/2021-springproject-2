@@ -100,6 +100,11 @@ public class UserController {
 		session.setAttribute("imgUrl", kakaoLoginService.kakaoLogin(accessToken).getImgUrl());
 		session.setAttribute("nickName", kakaoLoginService.kakaoLogin(accessToken).getNickName());
 		
-		return "redirect:/userProfile";
+		if (userService.login(String.valueOf(session.getAttribute("email"))) == true) {
+			System.out.println(session.getAttribute("email"));
+			return "redirect:/list";
+		} else {
+			return "redirect:/userProfile";
+		}
 	}
 }

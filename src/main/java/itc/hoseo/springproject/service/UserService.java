@@ -26,7 +26,11 @@ public class UserService {
 	
 	public boolean login(String id) {
 		User findUser = userRepository.findById(id);
-		return true;
+		if(findUser == null) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 	
 	@Transactional
