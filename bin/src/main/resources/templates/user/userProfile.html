@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>유저 프로파일 페이지 입니다.</title>
+</head>
+<body>
+	<p>유저 프로파일 페이지 입니다.</p>
+
+	
+</body>
+<title>회원가입</title>
+</head>
+<body>
+	<form action="join" method="post">
+		<p>ID : <input name="id" type="text" th:value="${session.email}" readonly/></p>
+		<p>NAME : <input name="name" type="text" th:value="${session.nickName}" /></p>
+		<p>PHONE : <input name="phone" type="text"></input></p>
+		<p>ADDRESS : <input name="address" type="text"></input></p>
+		<input type="submit">
+	</form>
+	<img th:src="${session.imgUrl}" /> <span th:text="|${session.nickName}님 환영합니다.|"></span>
+</html>
