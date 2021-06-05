@@ -15,6 +15,7 @@ create table review
 		review varchar(500),
 		star smallint not null);
 
+<<<<<<< HEAD:src/main/resources/schema.sql
 CREATE TABLE CATEGORY (
   category_name varchar(255) not null,
   primary key(category_name)
@@ -45,3 +46,5 @@ CREATE TABLE MENU (
   cost int not null,
   primary key(no)
 )
+=======
+>>>>>>> parent of d3246b3 (domain 구현):src/main/resources/userDB.sql
