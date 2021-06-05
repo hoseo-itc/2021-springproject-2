@@ -100,21 +100,11 @@ public class UserController {
 		session.setAttribute("imgUrl", kakaoLoginService.kakaoLogin(accessToken).getImgUrl());
 		session.setAttribute("nickName", kakaoLoginService.kakaoLogin(accessToken).getNickName());
 		
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bb45598ae01ffdfcaa659f0f4b9def837ac668a3
 		if (userService.login(String.valueOf(session.getAttribute("email"))) == true) {
 			System.out.println(session.getAttribute("email"));
 			return "redirect:/list";
 		} else {
 			return "redirect:/userProfile";
 		}
-<<<<<<< HEAD
-=======
-		return "redirect:/userProfile";
->>>>>>> parent of 95bf8c6 (로그인서비스 구현)
-=======
->>>>>>> bb45598ae01ffdfcaa659f0f4b9def837ac668a3
 	}
 }

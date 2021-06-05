@@ -29,7 +29,11 @@ public class H2UserRepository implements UserRepository {
 
 	@Override
 	public User findById(String id) {
-		return template.queryForObject("select id from user where id = ?", 
-    			new BeanPropertyRowMapper<User>(User.class), id);
+		List<User> list = template.query("select * from user where id = ?", new BeanPropertyRowMapper<User>(User.class), id);
+        if(list.size() == 0) {
+        	return null;
+        }else {
+        	return list.get(0);
+        }
 	}
 }
