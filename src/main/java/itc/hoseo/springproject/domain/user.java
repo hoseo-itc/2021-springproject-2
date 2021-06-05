@@ -3,6 +3,7 @@ package itc.hoseo.springproject.domain;
 import lombok.Data;
 
 @Data
+<<<<<<< HEAD:src/main/java/itc/hoseo/springproject/domain/User.java
 public class User {
 	
 
@@ -19,8 +20,12 @@ public class User {
 		this.phone = phone;
 		this.address = address;
 	}
+=======
+public class user {
+	private String id, name, phone;
+>>>>>>> parent of d3246b3 (domain 구현):src/main/java/itc/hoseo/springproject/domain/user.java
 	
-	User(String id, String name, String phone){
+	user(String id, String name, String phone){
 		this.id = id;
 		this.name = name;
 		this.phone = phone;
