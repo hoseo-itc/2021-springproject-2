@@ -58,47 +58,47 @@ public class NaverMapParserTest {
 		//tel 전화번호
 		//영업시간 자체로 보여주기
 		//categoryName
-//		list.forEach(c -> {
-//				Restaurant rst = new Restaurant();
-//				rst.setShop_name(c.at("/name").textValue());	//om.treeToValue(c, Restaurant.class); //알아서 관련 속성값을 맞춰주는 친구
-//				rst.setShop_address(c.at("/roadAddress").textValue());
-//				rst.setCategory(c.at("/category/0").textValue());
-//				rst.setPhone(c.at("/tel").textValue());
-//				rst.setOpening_hour(c.at("/bizhourInfo").textValue());
-//				rst.setShop_desc(c.at("/microReview/0").textValue());
-//				rst.setThumbnail_photo(c.at("/thumUrl").textValue());
-//				rst.setX(c.at("/x").textValue());
-//				rst.setY(c.at("/y").textValue());
-//				
-//				System.out.println(rst);
-//				
-//				List<Menu> menus = new ArrayList<>();
-//				
-//				for(String menuStr : c.at("/menuInfo").textValue().split("\\|")) {
-//					Menu mnu = new Menu();
-//					menuStr = menuStr.trim();
-//					String tt = "";
-//					for(String menuSt : menuStr.split(" ")) {
-//						
-//						if(menuSt.contains(",")) {
-//							mnu.setMenuName(tt.trim());
-//							mnu.setCost(Integer.parseInt(menuSt.replaceAll(",", "")));
-//							System.out.println(mnu);
-//						} else {
-//							tt = tt + menuSt;	
-//							tt = tt + " ";
-//						}
-//						
-//					}
-//					if(StringUtils.isEmpty(mnu.getMenuName()) == false){
-//						menus.add(mnu);			
-//					}
-//							
-//				}
-//				rst.setMenus(menus);
-//				service.save(rst);
+		list.forEach(c -> {
+				Restaurant rst = new Restaurant();
+				rst.setShop_name(c.at("/name").textValue());	//om.treeToValue(c, Restaurant.class); //알아서 관련 속성값을 맞춰주는 친구
+				rst.setShop_address(c.at("/roadAddress").textValue());
+				rst.setCategory(c.at("/category/0").textValue());
+				rst.setPhone(c.at("/tel").textValue());
+				rst.setOpening_hour(c.at("/bizhourInfo").textValue());
+				rst.setShop_desc(c.at("/microReview/0").textValue());
+				rst.setThumbnail_photo(c.at("/thumUrl").textValue());
+				rst.setX(c.at("/x").textValue());
+				rst.setY(c.at("/y").textValue());
+				
+				System.out.println(rst);
+				
+				List<Menu> menus = new ArrayList<>();
+				
+				for(String menuStr : c.at("/menuInfo").textValue().split("\\|")) {
+					Menu mnu = new Menu();
+					menuStr = menuStr.trim();
+					String tt = "";
+					for(String menuSt : menuStr.split(" ")) {
+						
+						if(menuSt.contains(",")) {
+							mnu.setMenuName(tt.trim());
+							mnu.setCost(Integer.parseInt(menuSt.replaceAll(",", "")));
+							System.out.println(mnu);
+						} else {
+							tt = tt + menuSt;	
+							tt = tt + " ";
+						}
+						
+					}
+					if(StringUtils.isEmpty(mnu.getMenuName()) == false){
+						menus.add(mnu);			
+					}
+							
+				}
+				rst.setMenus(menus);
+				service.save(rst);
 				 
-//		});
-		//System.out.println(list.size());
+		});
+		System.out.println(list.size());
 	}
 }
