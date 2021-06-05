@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import itc.hoseo.springproject.domain.User;
 import itc.hoseo.springproject.repository.UserRepository;
 
@@ -29,10 +28,15 @@ public class H2UserRepository implements UserRepository{
     			new BeanPropertyRowMapper<User>(User.class));
 	}
 
+	
 	@Override
 	public User findById(String id) {
-		return template.queryForObject("select id from user where id = ?", 
-    			new BeanPropertyRowMapper<User>(User.class), id);
+		List<User> list = template.query("select * from user where id = ?", new BeanPropertyRowMapper<User>(User.class), id);
+        if(list.size() == 0) {
+        	return null;
+        }else {
+        	return list.get(0);
+        }
 	}
 
 }
