@@ -90,8 +90,6 @@ public class UserController {
 		return "user/login";
 	}
 	
-	
-	
 	@GetMapping("/auth")
 	public String kakaoCallback(String code, HttpSession session) throws JsonMappingException, JsonProcessingException {
 		String accessToken = kakaoLoginService.getKakaoAccessToken(code).toString();

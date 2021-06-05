@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/logoutLayout :: layout (~{::body}, '킹갓제너럴')}">
+
+<body>
+	<style type="text/css">
+div .col {
+	cursor: pointer;
+}
+</style>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$("div .col").click(function(){
+			var href = $(this).attr("data-href");		
+			location.href= href;
+		});		
+	});
+	
+	</script>
+	<!-- Masthead-->
+	<section class="py-5">
+		<div class="container px-4 px-lg-5 mt-5">
+			<div
+				class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+
+				<div class="col mb-5" data-href="/chicken">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">치킨</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_chicken.png" alt="..." />
+					</div>
+				</div>
+
+
+				<div class="col mb-5 pizza" data-href="/pizza">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">피자</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_pizza.png" alt="..." />
+					</div>
+				</div>
+
+				<div class="col mb-5" data-href="/feet">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">족발</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_feet.png" alt="..." />
+					</div>
+				</div>
+
+				<div class="col mb-5" data-href="/snackbar">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">분식</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_snack.png" alt="..." />
+					</div>
+				</div>
+
+				<div class="col mb-5" data-href="/korean">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">한식</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_kor.png" alt="..." />
+					</div>
+				</div>
+
+				<div class="col mb-5" data-href="/japan">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">일식</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_japan.png" alt="..." />
+					</div>
+				</div>
+
+				<div class="col mb-5" data-href="/dessert">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">디저트</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_dessert.png" alt="..." />
+					</div>
+				</div>
+
+				<div class="col mb-5" data-href="/rest">
+					<div class="card h-100">
+						<div class="card-body p-4">
+							<div class="text-center">
+								<h5 class="fw-bolder">rest</h5>
+							</div>
+						</div>
+						<img class="card-img-top" src="img/main_pizza.png" alt="..." />
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+
+
+	</section>
+</body>
+</html>
