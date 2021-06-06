@@ -82,7 +82,7 @@ public class UserController {
 	@PostMapping("/userProfile")
 	public String kakaojoin(UserJoinFormDTO form) {
 		userService.join(form.getUser());
-		return "redirect:/list";
+		return "redirect:/";
 	}
 	@GetMapping("/login")
 	public String userLogin(){

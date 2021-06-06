@@ -8,16 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MainController {
 	
 	@GetMapping("/")
-	public String index(HttpSession session) {
-		if(session.getAttribute("email")== null) {
-			System.out.println("로그아웃");
-			return "logoutIndex";
-		}else {
-			System.out.println("로그인");
-			return "loginIndex";
-		}
-			
-		
+	public String index() {
+		return "index";
 	}
 	
 	@GetMapping("/pizza")
