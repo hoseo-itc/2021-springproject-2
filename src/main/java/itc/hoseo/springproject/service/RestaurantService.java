@@ -38,7 +38,6 @@ public class RestaurantService {
 		for(Restaurant rst : rslt) {
 			rst.setMenus(menuRepository.findByShopNo(rst.getNo()));
 		}
-		System.out.println("hello");
 		return rslt;
 	}
 	

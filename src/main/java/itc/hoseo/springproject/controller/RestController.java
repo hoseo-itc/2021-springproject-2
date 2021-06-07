@@ -22,12 +22,15 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -36,7 +39,9 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import itc.hoseo.springproject.domain.Restaurant;
 import itc.hoseo.springproject.domain.User;
+import itc.hoseo.springproject.repository.MenuRepository;
 import itc.hoseo.springproject.service.RestaurantService;
 
 @Controller
@@ -46,9 +51,9 @@ public class RestController {
 	private RestaurantService restService;
 
 	
-	@GetMapping("/join")
+	@GetMapping("/")
 	public String joinForm() {
-		return "rest/join";
+		return "rest/index.html";
 	}
 
 //	@PostMapping("/join")
@@ -57,10 +62,10 @@ public class RestController {
 //		return "redirect:/list";
 //	}
 
-	@GetMapping("/list")
+	@GetMapping("/shopList")
 	public String list(ModelMap mm) {
 		mm.put("restList", restService.findAll());
-		return "rest/list";
+		return "rest/shopList";
 	}
 
 	
