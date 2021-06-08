@@ -52,7 +52,7 @@ public class RestController {
 
 	
 	@GetMapping("/")
-	public String joinForm() {
+	public String goIndex() {
 		return "rest/index.html";
 	}
 
