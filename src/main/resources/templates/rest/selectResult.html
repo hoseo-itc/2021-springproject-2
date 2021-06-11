@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>검색</h1>
+	<hr>
+	<form action="search" method="post" style="border: 1px solid #ccc">
+		<!-- 	<select id="select">
+			<option type = "text" name = "restaurant" value="restaurant" selected>식당</option>
+			<option type = "text" name = "menu" value="menu">메뉴</option>0
+		</select>
+	 -->
+		<input type="text" name="restaurant" placeholder="검색할 식당을 입력.">
+		<label><b>검색할 내용 입력</b></label> <input type="text" name="input"
+			placeholder="검색할 식당을 입력.">
+		<button type="submit">확인</button>
+	</form>
+
+	<table>
+		<tr th:each="r: ${restList}">
+			<td th:text="${r.shop_name}" />
+			<td th:text="${r.shop_address}" />
+			<td th:text="${r.category}" />
+			<td th:text="${r.phone}" />
+			<td th:text="${r.thumbnail_photo}" />
+			<td th:text="${r.opening_hour}" />
+			<td th:text="${r.x}" />
+			<td th:text="${r.y}" />
+		</tr>
+	</table>
+
+
+
+
+</body>
+</html>

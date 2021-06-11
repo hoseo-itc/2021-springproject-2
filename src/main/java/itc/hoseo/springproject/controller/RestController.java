@@ -74,23 +74,30 @@ public class RestController {
 		mm.put("menuList", restaurantService.findAllMenu());
 		return "rest/menuList.html";
 	}
+	
+	
+//	@GetMapping("/selectResult")
+//	public String listSM(ModelMap mm) {
+//		mm.put("menuList", restaurantService.findAllMenu());
+//		mm.put("restList", restaurantService.findAll());
+//		return "rest/selectResult.html";
+//	}
 
+	
 	@GetMapping("/select")
 	public String select() {
 		return "rest/select.html";
 	}
 
 	@PostMapping("/search")
-	public String search(@RequestParam("restaurant") String rst, @RequestParam("input") String str,
+	public String search(Restaurant r,
+			@RequestParam("input") String str,
 			HttpSession session) {
+	restaurantService.findByShopName(str);
+	return "redirect:/selectResult";
 
-		if (rst.trim().equals("rst")) {
-			session.setAttribute(str, restaurantService.findByShopName(str));
-		} else {
-			session.setAttribute(str, restaurantService.findByMenuName(str));
-		}
 
-		return "redirect:/shopMenuSearch";
+		
 	}
 
 }

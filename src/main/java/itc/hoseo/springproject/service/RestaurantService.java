@@ -46,7 +46,7 @@ public class RestaurantService {
 		return restaurantRepository.findByShopName(Name);
 	}
 
-	public List<Menu> findByMenuName(String Name) {
+	public Menu findByMenuName(String Name) {
 		return menuRepository.findByMenuName(Name);
 	}
 
@@ -61,6 +61,14 @@ public class RestaurantService {
 	public List<Menu> findAllMenu() {
 		List<Menu> rslt = menuRepository.findAllMenu();
 		return rslt;
+	}
+	
+	public int countRestaurant() {
+		return restaurantRepository.findAll().size();
+	}
+	
+	public int countMenu() {
+		return menuRepository.findAllMenu().size();
 	}
 
 	// NaverMapParserTest.java
@@ -132,5 +140,6 @@ public class RestaurantService {
 			rst.setMenus(menus);
 			service.save(rst);
 		});
+		//System.out.println(list.size());
 	}
 }
