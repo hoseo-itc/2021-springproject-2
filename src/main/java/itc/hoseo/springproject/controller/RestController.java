@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
@@ -42,34 +43,46 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import itc.hoseo.springproject.domain.Restaurant;
 import itc.hoseo.springproject.domain.User;
 import itc.hoseo.springproject.repository.MenuRepository;
+import itc.hoseo.springproject.service.NaverMapParserTest;
 import itc.hoseo.springproject.service.RestaurantService;
 
 @Controller
 public class RestController {
 
 	@Autowired
-	private RestaurantService restService;
-
+	private RestaurantService restaurantService;
 	
+
 	@GetMapping("/")
 	public String goIndex() {
+		restaurantService.test();
 		return "rest/index.html";
 	}
+	
+	@GetMapping("/select")
+	public String select() {
+		return "rest/select.html";
+	}
 
-//	@PostMapping("/join")
-//	public String join(UserJoinFormDTO form) {
-//		restService.join(form.getUser());
-//		return "redirect:/list";
-//	}
+	@PostMapping("/search")
+	public String search(
+		@RequestParam("restaurant") String rst,
+		@RequestParam("input") String str,
+		HttpSession session) {
+		
+		if(rst.trim().equals("rst")) {
+			session.setAttribute(str, restaurantService.findByShopName(str));
+		} else {
+			session.setAttribute(str, restaurantService.findByMenuName(str));
+		}
+		
+		return "redirect:/shopMenuSearch";
+	}
 
 	@GetMapping("/shopList")
 	public String list(ModelMap mm) {
-		mm.put("restList", restService.findAll());
+		mm.put("restList", restaurantService.findAll());
+		mm.put("menuList", restaurantService.findAllMenu());
 		return "rest/shopList";
 	}
-
-	
-
-	
-	
 }

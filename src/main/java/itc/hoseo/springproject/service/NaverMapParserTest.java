@@ -8,6 +8,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 //import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -28,7 +29,7 @@ public class NaverMapParserTest {
 	@Autowired
 	private RestaurantService service;
 	
-
+	@Transactional
 	public void test(){
 		String url = "https://map.naver.com/v5/api/search";
 		RestTemplate restTemplate = new RestTemplate();
@@ -96,6 +97,6 @@ public class NaverMapParserTest {
 				service.save(rst);
 				 
 		});
-		System.out.println(list.size());
+		//System.out.println(list.size());
 	}
 }
