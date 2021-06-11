@@ -88,11 +88,16 @@ public class RestController {
 	}
 
 	@PostMapping("/search")
-	public String search(ModelMap mm, @RequestParam("input") String str, @RequestParam("option") int opt,
+	public String search(
+			ModelMap mm,
+			@RequestParam("input") String str, 
+			@RequestParam("option") int opt,
 			HttpSession session) {
 		if (opt == 1) {
+			session.setAttribute("restList", restaurantService.findByShopName(str));
 			mm.put("restList", restaurantService.findByShopName(str));
 		} else {
+			session.setAttribute("menuList", restaurantService.findByMenuName(str));
 			mm.put("menuList", restaurantService.findByMenuName(str));
 		}
 		return "redirect:/selectResult";
