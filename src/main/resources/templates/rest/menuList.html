@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+</head>
+<title>메뉴</title>
+<body>
+
+<a href="/"><p>메인으로</p></a>
+<h1>메뉴</h1>
+<table>
+	<tr>
+		<td>번호</td>
+		<td>가게번호</td>
+		<td>메뉴이름</td>
+		<td>메뉴사진</td>
+		<td>가격</td>
+	</tr>
+	<tr th:each = "m: ${menuList}">
+		<td th:text="${m.no}"/>
+		<td th:text="${m.shopNo}"/>
+		<td th:text="${m.menuName}"/>
+		<td th:text="${m.foodPhoto}"/> <!-- 이게 도메인 네임에 영향을 받는 친구였었네... -->
+		<td th:text="${m.cost}"/>
+	</tr>
+</table>
+
+
+
+
+
+</body>
+</html>

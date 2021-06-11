@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+</head>
+<title>가게</title>
+<body>
+
+<a href="/"><p>메인으로</p></a>
+<h1>가게</h1>
+<table>
+	<tr>
+		<td>가게이름</td>
+		<td>가게주소</td>
+		<td>카테고리</td>
+		<td>전화번호</td>
+		<td>썸네일</td>
+		<td>영업시간</td>
+		<td>위도</td>
+		<td>경도</td>	
+	</tr>
+	<tr th:each = "r: ${restList}">
+		<td th:text="${r.shop_name}"/>
+		<td th:text="${r.shop_address}"/>
+		<td th:text="${r.category}"/>
+		<td th:text="${r.phone}"/>
+		<td th:text="${r.thumbnail_photo}"/>
+		<td th:text="${r.opening_hour}"/>
+		<td th:text="${r.x}"/>
+		<td th:text="${r.y}"/>
+	</tr>
+</table>
+
+
+
+</body>
+</html>

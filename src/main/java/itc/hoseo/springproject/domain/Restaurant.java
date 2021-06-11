@@ -1,21 +1,30 @@
 package itc.hoseo.springproject.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Restaurant {
-	private String shop_name, category, phone, thumbnail_photo;
-	private int opening_hour, closing_hour, cnt_review, cnt_like;
-	
-	Restaurant(String shop_name, String category, String phone, String thumnail_photo,
-				int opening_hour, int closing_hour, int cnt_review, int cnt_like){
-		this.shop_name = shop_name;
-		this.category = category;
-		this.phone = phone;
-		this.thumbnail_photo = thumnail_photo;
-		this.opening_hour = opening_hour;
-		this.closing_hour = closing_hour;
-		this.cnt_like = cnt_like;
-		this.cnt_review = cnt_review;
-	}
+	private int no;
+	private String shop_name;
+	private String shop_address;
+	private String category;
+	private String phone;
+	private String thumbnail_photo;
+	private String opening_hour;
+	private String x;	//위도
+	private String y;	//경도
+	private String shop_desc; //설명글
+	//private int cnt_review;
+	//private int cnt_like;
+	private List<Menu> menus = new ArrayList<>();
+
 }
