@@ -59,10 +59,6 @@ public class RestController {
         return "rest/list";
     }
     
-//    @GetMapping("/resttt")
-//    public String list() {
-//        return "rest/index";
-//    }
 
     @PostMapping("/save")
     public String save() {
