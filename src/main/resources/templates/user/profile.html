@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"
+	th:replace="~{fragments/Layout :: layout (~{::body}, '킹갓제너럴')}">
+<body>
+	<link rel="stylesheet" href="css/login.css">
+	<script type="text/javascript"
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d0d70f4ac50512a98af1e8c9f8c9b737"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+		integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+		crossorigin="anonymous"></script>
+
+
+	<div class="from-background">
+		<div class="from-white">
+			<h3 style="text-align: center">회원가입</h3>
+			<form action="join" method="post">
+			<div class="from-whole">
+				<p>아이디</p>
+				<input class="from-input" type="text" name="id"
+					th:value="${session.email}" readonly />
+			</div>
+			<div class="from-whole">
+				<p>이름</p>
+				<input class="from-input" type="text" name="name"
+					th:value="${session.nickName}">
+			</div>
+
+			<div class="from-whole">
+				<p>휴대전화</p>
+				<input class="from-input" type="text" name="phone">
+			</div>
+			<div class="from-whole">
+				<p>주소</p>
+				<input class="from-input" type="text" name="address" readonly
+					value="주소조회를 해주세요.">
+				<button type="button" class="btn btn-danger btn-xs" id='popupBtn'>주소조회</button>
+			</div>
+			<button class="submit">SEND</button>
+			</from>
+		</div>
+	</div>
+	<script>
+		window.onmessage = function(e) {
+			$("input[name=address]").val(e.data);
+		};
+		$(document)
+				.ready(
+						function() {
+							var formObj = $("form[role='form']");
+
+							$('#popupBtn')
+									.on(
+											"click",
+											function() {
+												window
+														.open("/addressMap",
+																"주소검색",
+																"toolbar=yes,menuber=yes,width=550,height=550")
+														.focus();
+											});
+						});
+	</script>
+</body>
+</html>

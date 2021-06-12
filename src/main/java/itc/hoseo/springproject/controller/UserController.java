@@ -51,43 +51,20 @@ public class UserController {
 	@Autowired
 	private KakaoLoginService kakaoLoginService;
 	
-	@GetMapping("/join")
-	public String joinForm() {
-		return "user/join";
-	}
-	
 	@GetMapping("/addressMap")
 	public String addressMap() {
 		return "user/addressMap";
 	}
 	
-	@PostMapping("/join")
-	public String join(UserJoinFormDTO form) {
-		userService.join(form.getUser());
-		return "redirect:/list";
-	}
-
-	@GetMapping("/list")
-	public String list(ModelMap mm) {
-		mm.put("userList", userService.findAll());
-		return "user/list";
-	}
-
-	
 	@GetMapping("/userProfile")
 	public String userProfile(HttpSession session, ModelMap mm) {
 		
-		return "user/userProfile";
+		return "user/profile";
 	}
 	@PostMapping("/userProfile")
 	public String kakaojoin(UserJoinFormDTO form) {
 		userService.join(form.getUser());
 		return "redirect:/list";
-	}
-	@GetMapping("/login")
-	public String userLogin(){
-		
-		return "user/login";
 	}
 	
 	
@@ -102,7 +79,7 @@ public class UserController {
 		
 		if (userService.login(String.valueOf(session.getAttribute("email"))) == true) {
 			System.out.println(session.getAttribute("email"));
-			return "redirect:/list";
+			return "redirect:/";
 		} else {
 			return "redirect:/userProfile";
 		}

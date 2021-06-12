@@ -1,0 +1,27 @@
+2021-06-12 11:08:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:08:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:09:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:09:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:09:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:09:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:09:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
+2021-06-12 11:10:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
+select * from restaurant where category like '%' || ? || '%' [42102-200]
