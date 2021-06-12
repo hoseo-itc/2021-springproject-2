@@ -34,7 +34,9 @@
     	</div>
     </div>
 
+	
     <th:block th:each="rest : ${list}">
+    <form action="/order" method="post">
         <div class="test">
             <img class="thumbnail" th:src="${rest.thumbnail_photo}" src="img/네네치킨.jpg" style="width: 100px; height: 100px;">
             <div class="blog-user">
@@ -46,7 +48,10 @@
                 </div>
             </div>
         </div>
+        <button type="submit">주문</button>
+    </form>
     </th:block>
+    
 
     <div class="marg"> </div>
 

@@ -78,6 +78,16 @@ public class RestController {
         return "rest/menuList.html";
     }
 
+    
+    @GetMapping("/detail")
+    public String listO() {
+    	return "rest/detail.html";
+    }
+    
+    @PostMapping("/order")
+    public String order() {
+    	return "redirect:/res";
+    }
 //	@GetMapping("/selectResult")
 //	public String listSM(ModelMap mm) {
 //		mm.put("menuList", restaurantService.findAllMenu());
