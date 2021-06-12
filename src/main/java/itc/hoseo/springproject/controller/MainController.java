@@ -53,10 +53,4 @@ public class MainController {
     public String rest() {
         return "rest";
     }
-
-    @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        session.invalidate();
-        return "redirect:/";
-    }
 }
