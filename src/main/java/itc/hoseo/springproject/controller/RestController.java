@@ -103,4 +103,9 @@ public class RestController {
 		return "redirect:/selectResult";
 	}
 
+
+@GetMapping("/error")
+public void error() {
+	
+}
 }
