@@ -49,8 +49,8 @@ public class MainController {
         return "dessert";
     }
 
-    @GetMapping("/rest")
-    public String rest() {
-        return "rest";
-    }
+//    @GetMapping("/rest")
+//    public String rest() {
+//        return "rest";
+//    }
 }
