@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/html" xml:lang="en">
+<head>
+<meta charset="utf-8" />
+    <meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<title>Shop Homepage - Start Bootstrap Template</title>
+<!-- Favicon-->
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+<!-- Bootstrap icons-->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+	rel="stylesheet" />
+<!-- Core theme CSS (includes Bootstrap)-->
+<link href="css/styles.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>슈퍼 딜리버리</title>
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="menutitle-container">
+    	<div class="menu-title">
+    		<ul class="menu-margin">
+    			<li class="menu-title-list"><a href="/res?category=chicken">치킨</a></li>
+				<li class="menu-title-list"><a href="/res?category=pizza">피자</a></li>
+    			<li class="menu-title-list"><a href="/res?category=feet">족발</a></li>
+    			<li class="menu-title-list"><a href="/res?category=snackbar">분식</a></li>
+    			<li class="menu-title-list"><a href="/res?category=korean">한식</a></li>
+    			<li class="menu-title-list"><a href="/res?category=japan">일식</a></li>
+    			<li class="menu-title-list"><a href="/res?category=dessert">디저트</a></li>
+    		</ul>
+    	</div>
+    </div>
+
+    <th:block th:each="rest : ${list}">
+        <div class="test">
+            <img class="thumbnail" th:src="${rest.thumbnail_photo}" src="img/네네치킨.jpg" style="width: 100px; height: 100px;">
+            <div class="blog-user">
+                <h5 class="Restaurant-name" th:text="${rest.shop_name}">네네치킨</h5>
+                <p class="review">★4.9(345)</p>
+                <div class="Explanation">
+                    <p class="time">30~40분 </p>
+                    <p class="delivery-pay"> | 배달요금 3,000원</p>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
+    <div class="marg"> </div>
+
+
+
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; Your
+				Website 2021</p>
+		</div>
+	</footer>
+	<!-- Bootstrap core JS-->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+	<!-- Core theme JS-->
+	<script src="js/scripts.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>                
+</body>
+</html>

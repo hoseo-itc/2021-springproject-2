@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import itc.hoseo.springproject.domain.RestaurantCategory;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -24,6 +25,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -48,31 +50,32 @@ import itc.hoseo.springproject.service.RestaurantService;
 @Controller
 public class RestController {
 
-	@Autowired
-	private RestaurantService restaurantService;
+    @Autowired
+    private RestaurantService restaurantService;
 
-	@GetMapping("/res")
-	public String goIndex() {
-		return "rest/index.html";
-	}
+    @GetMapping("/res")
+    public String list(RestaurantCategory category, ModelMap mm) {
+        mm.put("list", restaurantService.findByCategory(category.getDesc()));
+        return "rest/list";
+    }
 
-	@PostMapping("/save")
-	public String save() {
-		restaurantService.test();
-		return "redirect:/";
-	}
+    @PostMapping("/save")
+    public String save() {
+        restaurantService.test();
+        return "redirect:/";
+    }
 
-	@GetMapping("/shopList")
-	public String list(ModelMap mm) {
-		mm.put("restList", restaurantService.findAll());
-		return "rest/shopList.html";
-	}
+    @GetMapping("/shopList")
+    public String list(ModelMap mm) {
+        mm.put("restList", restaurantService.findAll());
+        return "rest/shopList.html";
+    }
 
-	@GetMapping("/menuList")
-	public String listM(ModelMap mm) {
-		mm.put("menuList", restaurantService.findAllMenu());
-		return "rest/menuList.html";
-	}
+    @GetMapping("/menuList")
+    public String listM(ModelMap mm) {
+        mm.put("menuList", restaurantService.findAllMenu());
+        return "rest/menuList.html";
+    }
 
 //	@GetMapping("/selectResult")
 //	public String listSM(ModelMap mm) {
@@ -81,25 +84,25 @@ public class RestController {
 //		return "rest/selectResult.html";
 //	}
 
-	@GetMapping("/select")
-	public String select() {
-		return "rest/select.html";
-	}
+    @GetMapping("/select")
+    public String select() {
+        return "rest/select.html";
+    }
 
-	@PostMapping("/search")
-	public String search(
-			ModelMap mm,
-			@RequestParam("input") String str, 
-			@RequestParam("option") int opt,
-			HttpSession session) {
-		if (opt == 1) {
-			session.setAttribute("restList", restaurantService.findByShopName(str));
-			mm.put("restList", restaurantService.findByShopName(str));
-		} else {
-			session.setAttribute("menuList", restaurantService.findByMenuName(str));
-			mm.put("menuList", restaurantService.findByMenuName(str));
-		}
-		return "redirect:/selectResult";
-	}
+    @PostMapping("/search")
+    public String search(
+            ModelMap mm,
+            @RequestParam("input") String str,
+            @RequestParam("option") int opt,
+            HttpSession session) {
+        if (opt == 1) {
+            session.setAttribute("restList", restaurantService.findByShopName(str));
+            mm.put("restList", restaurantService.findByShopName(str));
+        } else {
+            session.setAttribute("menuList", restaurantService.findByMenuName(str));
+            mm.put("menuList", restaurantService.findByMenuName(str));
+        }
+        return "redirect:/selectResult";
+    }
 
 }

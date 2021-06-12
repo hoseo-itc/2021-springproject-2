@@ -63,8 +63,8 @@ public class H2RestaurantRepository implements RestaurantRepository{
 	}
 
 	@Override
-	public Restaurant findByCategory(String category) {
-		return template.queryForObject("select * from restaurant where category = ?",
+	public List<Restaurant> findByCategory(String category) {
+		return template.query("select * from restaurant where category like '%' || ? || '%'",
 				new BeanPropertyRowMapper<Restaurant>(Restaurant.class), category);
 	}
 

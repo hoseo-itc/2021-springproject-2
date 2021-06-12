@@ -1,7 +1,9 @@
 package itc.hoseo.springproject.service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -50,6 +52,15 @@ public class RestaurantService {
 		return menuRepository.findByMenuName(Name);
 	}
 
+	public List<Restaurant> findByCategory(String category){
+		List<Restaurant> rslt = restaurantRepository.findByCategory(category);
+		for(Restaurant item : rslt ){
+			item.setMenus(menuRepository.findByShopNo(item.getNo()));
+		}
+		return rslt;
+	}
+
+
 	public List<Restaurant> findAll() {
 		List<Restaurant> rslt = restaurantRepository.findAll();
 		for (Restaurant rst : rslt) {
@@ -89,7 +100,7 @@ public class RestaurantService {
 		map.add("type", "all");
 		map.add("searchCoord", "126.8639991000001;37.554732100000265");
 		map.add("page", "1");
-		map.add("displayCount", "10");
+		map.add("displayCount", "100");
 		map.add("isPlaceRecommendationReplace", "true");
 		map.add("lang", "ko");
 
@@ -103,42 +114,57 @@ public class RestaurantService {
 		// 영업시간 자체로 보여주기
 		// categoryName
 		list.forEach(c -> {
-			Restaurant rst = new Restaurant();
-			rst.setShop_name(c.at("/name").textValue()); // om.treeToValue(c, Restaurant.class); //알아서 관련 속성값을 맞춰주는 친구
-			rst.setShop_address(c.at("/roadAddress").textValue());
-			rst.setCategory(c.at("/category/0").textValue());
-			rst.setPhone(c.at("/tel").textValue());
-			rst.setOpening_hour(c.at("/bizhourInfo").textValue());
-			rst.setShop_desc(c.at("/microReview/0").textValue());
-			rst.setThumbnail_photo(c.at("/thumUrl").textValue());
-			rst.setX(c.at("/x").textValue());
-			rst.setY(c.at("/y").textValue());
-			// System.out.println(rst);
+			try{
+				Restaurant rst = new Restaurant();
+				rst.setShop_name(c.at("/name").textValue()); // om.treeToValue(c, Restaurant.class); //알아서 관련 속성값을 맞춰주는 친구
+				rst.setShop_address(c.at("/roadAddress").textValue());
 
-			List<Menu> menus = new ArrayList<>();
-
-			for (String menuStr : c.at("/menuInfo").textValue().split("\\|")) {
-				Menu mnu = new Menu();
-				menuStr = menuStr.trim();
-				String tt = "";
-				for (String menuSt : menuStr.split(" ")) {
-
-					if (menuSt.contains(",")) {
-						mnu.setMenuName(tt.trim());
-						mnu.setCost(Integer.parseInt(menuSt.replaceAll(",", "")));
-						// System.out.println(mnu);
-					} else {
-						tt = tt + menuSt;
-						tt = tt + " ";
+				List<String> category = new ArrayList<>();
+				ArrayNode categoryNode = (ArrayNode)c.at("/category");
+				for(JsonNode node : categoryNode){
+					String txt = node.textValue();
+					if(txt.contains(",")){
+						category.addAll(Arrays.asList(txt.split(",")));
+					}else{
+						category.add(txt);
 					}
 				}
-				if (StringUtils.isEmpty(mnu.getMenuName()) == false) {
-					menus.add(mnu);
-				}
+				rst.setCategory(category.stream().collect(Collectors.joining(",")));
+				rst.setPhone(c.at("/tel").textValue());
+				rst.setOpening_hour(c.at("/bizhourInfo").textValue());
+				rst.setShop_desc(c.at("/microReview/0").textValue());
+				rst.setThumbnail_photo(c.at("/thumUrl").textValue());
+				rst.setX(c.at("/x").textValue());
+				rst.setY(c.at("/y").textValue());
+				// System.out.println(rst);
 
+				List<Menu> menus = new ArrayList<>();
+
+				for (String menuStr : c.at("/menuInfo").textValue().split("\\|")) {
+					Menu mnu = new Menu();
+					menuStr = menuStr.trim();
+					String tt = "";
+					for (String menuSt : menuStr.split(" ")) {
+
+						if (menuSt.contains(",")) {
+							mnu.setMenuName(tt.trim());
+							mnu.setCost(Integer.parseInt(menuSt.replaceAll(",", "")));
+							// System.out.println(mnu);
+						} else {
+							tt = tt + menuSt;
+							tt = tt + " ";
+						}
+					}
+					if (StringUtils.isEmpty(mnu.getMenuName()) == false) {
+						menus.add(mnu);
+					}
+
+				}
+				rst.setMenus(menus);
+				service.save(rst);
+			}catch(Exception ex){
+				log.error("식당 추가중 오류 발생 {} ",ex);
 			}
-			rst.setMenus(menus);
-			service.save(rst);
 		});
 		//System.out.println(list.size());
 	}

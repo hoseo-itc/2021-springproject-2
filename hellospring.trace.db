@@ -1,6 +1,0 @@
-2021-06-05 14:38:33 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
-insert into restaurant(shop_name, shop_address, category, phone, thumbnail_photo, opening_hour, x, y, shop_desc) values(?,?,?,?,?,?,?,?,?) [42102-200]
-2021-06-05 14:40:35 jdbc[3]: exception
-org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "RESTAURANT" not found; SQL statement:
-insert into restaurant(shop_name, shop_address, category, phone, thumbnail_photo, opening_hour, x, y, shop_desc) values(?,?,?,?,?,?,?,?,?) [42102-200]
