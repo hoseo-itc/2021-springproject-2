@@ -1,50 +1,21 @@
 package itc.hoseo.springproject.controller;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import itc.hoseo.springproject.domain.RestaurantCategory;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONObject;
+import itc.hoseo.springproject.domain.*;
+import itc.hoseo.springproject.domain.dto.CartDTO;
+import itc.hoseo.springproject.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import itc.hoseo.springproject.domain.Restaurant;
-import itc.hoseo.springproject.domain.User;
-import itc.hoseo.springproject.repository.MenuRepository;
 import itc.hoseo.springproject.service.RestaurantService;
 
 @Controller
@@ -52,6 +23,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    private MenuRepository menuRepository;
 
     @GetMapping("/res")
     public String list(RestaurantCategory category, ModelMap mm) {
@@ -63,6 +37,21 @@ public class RestaurantController {
     public String list(String keyword, ModelMap mm) {
         mm.put("list", restaurantService.findByMenuOrName(keyword));
         return "rest/list";
+    }
+
+    @PostMapping("/addCart")
+    public String addCart(CartDTO dto, HttpSession session, ModelMap mm) {
+        if(session.getAttribute("carts") == null){            ;
+            session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
+        }
+        Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>)session.getAttribute("carts");
+
+        Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
+        OrderMenu orderMenu = new OrderMenu(menu, dto.getCount());
+
+        menuMap.put(dto.getMenuNo(), orderMenu);
+
+        return "redirect:/detail?shopNo=" + menu.getShopNo();
     }
 
     @GetMapping("/detail")
