@@ -58,8 +58,8 @@ public class H2MenuRepository implements MenuRepository {
 	}
 
 	@Override
-	public Menu findByMenuName(String menuName) {
-		return  template.queryForObject("select * from menu where menu_name like ?", new BeanPropertyRowMapper<Menu>(Menu.class), menuName);
+	public List<Menu> findByMenuName(String menuName) {
+		return  template.query("select * from menu where menu_name like '%' || ? || '%'", new BeanPropertyRowMapper<Menu>(Menu.class), menuName);
 	}
 
 }

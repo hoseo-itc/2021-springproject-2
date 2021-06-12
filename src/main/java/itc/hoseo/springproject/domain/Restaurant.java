@@ -3,15 +3,13 @@ package itc.hoseo.springproject.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "no")
 public class Restaurant {
 	private int no;
 	private String shop_name;
@@ -26,5 +24,7 @@ public class Restaurant {
 	//private int cnt_review;
 	//private int cnt_like;
 	private List<Menu> menus = new ArrayList<>();
+
+
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -29,143 +30,92 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RestaurantService {
 
-	@Autowired
-	private RestaurantRepository restaurantRepository;
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
-	@Autowired
-	private MenuRepository menuRepository;
+    @Autowired
+    private MenuRepository menuRepository;
 
-	@Transactional
-	public void save(Restaurant rst) {
-		Restaurant savedRst = restaurantRepository.save(rst);
-		for (Menu mnu : rst.getMenus()) {
-			mnu.setShopNo(savedRst.getNo());
-			menuRepository.save(mnu);
-		}
-	}
+    @Transactional
+    public void save(Restaurant rst) {
+        Restaurant savedRst = restaurantRepository.save(rst);
+        for (Menu mnu : rst.getMenus()) {
+            mnu.setShopNo(savedRst.getNo());
+            menuRepository.save(mnu);
+        }
+    }
 
-	public Restaurant findByShopName(String Name) {
-		return restaurantRepository.findByShopName(Name);
-	}
+    public Restaurant findByShopNo(int shopNo){
+        Restaurant restaurant = restaurantRepository.findByShopNo(shopNo);
+        if(restaurant == null) return null;
+        restaurant.setMenus(menuRepository.findByShopNo(shopNo));
+        return restaurant;
+    }
 
-	public Menu findByMenuName(String Name) {
-		return menuRepository.findByMenuName(Name);
-	}
+    public List<Restaurant> findByMenuOrName(String keyword){
+        return Stream.concat(findByMenuName(keyword).stream() ,
+                findByShopName(keyword).stream())
+                .distinct()
+                .collect(Collectors.toList());
+    }
 
-	public List<Restaurant> findByCategory(String category){
-		List<Restaurant> rslt = restaurantRepository.findByCategory(category);
-		for(Restaurant item : rslt ){
-			item.setMenus(menuRepository.findByShopNo(item.getNo()));
-		}
-		return rslt;
-	}
+    public List<Restaurant> findByMenuName(String name) {
+        return menuRepository.findByMenuName(name)
+                .stream()
+                .map(m -> {
+                    Restaurant restaurant = restaurantRepository.findByShopNo(m.getShopNo());
+                    if (restaurant != null) {
+                        restaurant.setMenus(menuRepository.findByShopNo(m.getShopNo()));
+                        return restaurant;
+                    } else {
+                        return null;
+                    }
+                })
+                .filter(r -> {
+                    return r != null;
+                })
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<Restaurant> findByShopName(String shopName) {
+        List<Restaurant> rslt = restaurantRepository.findByShopName(shopName);
+        rslt.stream()
+                .forEach(r -> {
+                    r.setMenus(menuRepository.findByShopNo(r.getNo()));
+                });
+        return rslt;
+    }
+
+    public List<Restaurant> findByCategory(String category) {
+        List<Restaurant> rslt = restaurantRepository.findByCategory(category);
+        for (Restaurant item : rslt) {
+            item.setMenus(menuRepository.findByShopNo(item.getNo()));
+        }
+        return rslt;
+    }
 
 
-	public List<Restaurant> findAll() {
-		List<Restaurant> rslt = restaurantRepository.findAll();
-		for (Restaurant rst : rslt) {
-			rst.setMenus(menuRepository.findByShopNo(rst.getNo()));
-		}
-		return rslt;
-	}
+    public List<Restaurant> findAll() {
+        List<Restaurant> rslt = restaurantRepository.findAll();
+        for (Restaurant rst : rslt) {
+            rst.setMenus(menuRepository.findByShopNo(rst.getNo()));
+        }
+        return rslt;
+    }
 
-	public List<Menu> findAllMenu() {
-		List<Menu> rslt = menuRepository.findAllMenu();
-		return rslt;
-	}
-	
-	public int countRestaurant() {
-		return restaurantRepository.findAll().size();
-	}
-	
-	public int countMenu() {
-		return menuRepository.findAllMenu().size();
-	}
+    public List<Menu> findAllMenu() {
+        List<Menu> rslt = menuRepository.findAllMenu();
+        return rslt;
+    }
 
-	// NaverMapParserTest.java
-	@Autowired
-	private RestaurantService service;
+    public int countRestaurant() {
+        return restaurantRepository.findAll().size();
+    }
 
-	@Transactional
-	public void test() {
-		String url = "https://map.naver.com/v5/api/search";
-		RestTemplate restTemplate = new RestTemplate();
+    public int countMenu() {
+        return menuRepository.findAllMenu().size();
+    }
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 
-		MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-		map.add("caller", "pcweb");
-		map.add("query", "음식점");
-		map.add("type", "all");
-		map.add("searchCoord", "126.8639991000001;37.554732100000265");
-		map.add("page", "1");
-		map.add("displayCount", "100");
-		map.add("isPlaceRecommendationReplace", "true");
-		map.add("lang", "ko");
-
-		HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-
-		ArrayNode list = (ArrayNode) restTemplate.postForObject(url, request, JsonNode.class).at("/result/place/list");
-		// System.out.println(list.toString());
-
-		// x,y 경도 위도 속성
-		// tel 전화번호
-		// 영업시간 자체로 보여주기
-		// categoryName
-		list.forEach(c -> {
-			try{
-				Restaurant rst = new Restaurant();
-				rst.setShop_name(c.at("/name").textValue()); // om.treeToValue(c, Restaurant.class); //알아서 관련 속성값을 맞춰주는 친구
-				rst.setShop_address(c.at("/roadAddress").textValue());
-
-				List<String> category = new ArrayList<>();
-				ArrayNode categoryNode = (ArrayNode)c.at("/category");
-				for(JsonNode node : categoryNode){
-					String txt = node.textValue();
-					if(txt.contains(",")){
-						category.addAll(Arrays.asList(txt.split(",")));
-					}else{
-						category.add(txt);
-					}
-				}
-				rst.setCategory(category.stream().collect(Collectors.joining(",")));
-				rst.setPhone(c.at("/tel").textValue());
-				rst.setOpening_hour(c.at("/bizhourInfo").textValue());
-				rst.setShop_desc(c.at("/microReview/0").textValue());
-				rst.setThumbnail_photo(c.at("/thumUrl").textValue());
-				rst.setX(c.at("/x").textValue());
-				rst.setY(c.at("/y").textValue());
-				// System.out.println(rst);
-
-				List<Menu> menus = new ArrayList<>();
-
-				for (String menuStr : c.at("/menuInfo").textValue().split("\\|")) {
-					Menu mnu = new Menu();
-					menuStr = menuStr.trim();
-					String tt = "";
-					for (String menuSt : menuStr.split(" ")) {
-
-						if (menuSt.contains(",")) {
-							mnu.setMenuName(tt.trim());
-							mnu.setCost(Integer.parseInt(menuSt.replaceAll(",", "")));
-							// System.out.println(mnu);
-						} else {
-							tt = tt + menuSt;
-							tt = tt + " ";
-						}
-					}
-					if (StringUtils.isEmpty(mnu.getMenuName()) == false) {
-						menus.add(mnu);
-					}
-
-				}
-				rst.setMenus(menus);
-				service.save(rst);
-			}catch(Exception ex){
-				log.error("식당 추가중 오류 발생 {} ",ex);
-			}
-		});
-		//System.out.println(list.size());
-	}
 }

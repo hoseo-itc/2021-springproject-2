@@ -47,10 +47,10 @@
 	<div class="row" style="margin: 0px 10px 0px 10px;">
 		<div class="col-md-8">
 			<div class="test-rest">
-				<img class="thumbnail" src="img/네네치킨.jpg"
+				<img class="thumbnail" th:src="${res.thumbnail_photo}" src="img/네네치킨.jpg"
 					style="width: 100px; height: 100px;">
 				<div class="blog-user">
-					<h5 class="Restaurant-name">네네치킨</h5>
+					<h5 class="Restaurant-name" th:text="${res.shop_name}">네네치킨</h5>
 					<p class="review">★4.9(345)</p>
 					<div class="Explanation">
 						<p class="time">30~40분</p>
@@ -69,54 +69,19 @@
 
 			<div class="res-menu">
 				<div class="ch-pop">
-					<h5>인기 메뉴</h5>
+					<h5>메뉴</h5>
 				</div>
 				<ul class="menu-fra">
-					<li class="menu-list">
+					<li class="menu-list" th:each="m : ${res.menus}">
 						<div class="menu-list-fra">
 							<div class="menu-list-text">
-								<h5>후라이드</h5>
-								<p>18,000원</p>
+								<h5 th:text="${m.menuName}">후라이드</h5>
+								<p th:text="|${#numbers.formatInteger(m.cost,3,'COMMA')}원|">18,000원</p>
 							</div>
-							<img class="list-img" src="img/네네치킨.jpg">
-						</div>
-					</li>
-					<li class="menu-list">
-						<div class="menu-list-fra">
-							<div class="menu-list-text">
-								<h5>후라이드</h5>
-								<p>18,000원</p>
-							</div>
-							<img class="list-img" src="img/네네치킨.jpg">
+							<img style="display:none;" class="list-img" src="img/네네치킨.jpg">
 						</div>
 					</li>
 				</ul>
-
-				<div class="ch-pop1">
-					<h5>후라이드</h5>
-				</div>
-				<ul class="menu-fra1">
-					<li class="menu-list">
-						<div class="menu-list-fra">
-							<div class="menu-list-text">
-								<h5>후라이드</h5>
-								<p>18,000원</p>
-							</div>
-							<img class="list-img" src="img/네네치킨.jpg">
-						</div>
-					</li>
-					<li class="menu-list">
-						<div class="menu-list-fra">
-							<div class="menu-list-text">
-								<h5>후라이드</h5>
-								<p>18,000원</p>
-							</div>
-							<img class="list-img" src="img/네네치킨.jpg">
-						</div>
-					</li>
-				</ul>
-
-
 			</div>
 
 		</div>
@@ -162,6 +127,9 @@
 	$('.infor-menu').click(function(){
 		$('.res-menu').css("display", "block");
 	})
+
+	$('.res-menu').css("display", "block");
+	$('.menu-fra').slideToggle();
 </script>
 
 	<!-- Footer-->

@@ -7,6 +7,6 @@ import itc.hoseo.springproject.domain.Menu;
 public interface MenuRepository {
 	public Menu save(Menu menu);
 	public List<Menu> findByShopNo (int shopNo);
-	public Menu findByMenuName (String menuName);
+	public List<Menu> findByMenuName (String menuName);
 	public List<Menu> findAllMenu();
 }

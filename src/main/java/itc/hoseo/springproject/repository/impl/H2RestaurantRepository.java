@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -57,9 +58,19 @@ public class H2RestaurantRepository implements RestaurantRepository{
 	}
 
 	@Override
-	public Restaurant findByShopName(String shop_name) {
-		return template.queryForObject("select * from restaurant where shop_name = ?",
-				new BeanPropertyRowMapper<Restaurant>(Restaurant.class), shop_name);
+	public List<Restaurant> findByShopName(String shopName) {
+		return template.query("select * from restaurant where shop_name like '%' || ? || '%'",
+				new BeanPropertyRowMapper<Restaurant>(Restaurant.class), shopName);
+	}
+
+	@Override
+	public Restaurant findByShopNo(int shopNo) {
+		try{
+			return template.queryForObject("select * from restaurant where no = ?",
+					new BeanPropertyRowMapper<Restaurant>(Restaurant.class), shopNo);
+		}catch (IncorrectResultSizeDataAccessException dataAccessException){
+			return null;
+		}
 	}
 
 	@Override

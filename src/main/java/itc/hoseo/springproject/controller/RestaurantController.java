@@ -48,7 +48,7 @@ import itc.hoseo.springproject.repository.MenuRepository;
 import itc.hoseo.springproject.service.RestaurantService;
 
 @Controller
-public class RestController {
+public class RestaurantController {
 
     @Autowired
     private RestaurantService restaurantService;
@@ -59,11 +59,23 @@ public class RestController {
         return "rest/list";
     }
 
-    @PostMapping("/save")
-    public String save() {
-        restaurantService.test();
-        return "redirect:/";
+    @GetMapping("/search")
+    public String list(String keyword, ModelMap mm) {
+        mm.put("list", restaurantService.findByMenuOrName(keyword));
+        return "rest/list";
     }
+
+    @GetMapping("/detail")
+    public String detail(@RequestParam int shopNo, ModelMap mm) {
+        Restaurant restaurant = restaurantService.findByShopNo(shopNo);
+        if(restaurant == null){
+            return "redirect:https://http.cat/404";
+        }
+        mm.put("res", restaurant);
+        return "rest/rest";
+    }
+
+
 
     @GetMapping("/shopList")
     public String list(ModelMap mm) {
@@ -89,20 +101,20 @@ public class RestController {
         return "rest/select.html";
     }
 
-    @PostMapping("/search")
-    public String search(
-            ModelMap mm,
-            @RequestParam("input") String str,
-            @RequestParam("option") int opt,
-            HttpSession session) {
-        if (opt == 1) {
-            session.setAttribute("restList", restaurantService.findByShopName(str));
-            mm.put("restList", restaurantService.findByShopName(str));
-        } else {
-            session.setAttribute("menuList", restaurantService.findByMenuName(str));
-            mm.put("menuList", restaurantService.findByMenuName(str));
-        }
-        return "redirect:/selectResult";
-    }
+//    @PostMapping("/search")
+//    public String search(
+//            ModelMap mm,
+//            @RequestParam("input") String str,
+//            @RequestParam("option") int opt,
+//            HttpSession session) {
+//        if (opt == 1) {
+//            session.setAttribute("restList", restaurantService.findByShopName(str));
+//            mm.put("restList", restaurantService.findByShopName(str));
+//        } else {
+//            session.setAttribute("menuList", restaurantService.findByMenuName(str));
+//            mm.put("menuList", restaurantService.findByMenuName(str));
+//        }
+//        return "redirect:/selectResult";
+//    }
 
 }
