@@ -58,6 +58,11 @@ public class RestController {
         mm.put("list", restaurantService.findByCategory(category.getDesc()));
         return "rest/list";
     }
+    
+//    @GetMapping("/resttt")
+//    public String list() {
+//        return "rest/index";
+//    }
 
     @PostMapping("/save")
     public String save() {
