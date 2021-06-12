@@ -3,9 +3,6 @@
 	th:replace="~{fragments/Layout :: layout (~{::body}, '킹갓제너럴')}">
 
 <body>
-	
-	
-
 	<div class="row" style="margin: 0px 10px 0px 10px;">
 		<div class="col-md-8">
 			<div class="test-rest">
@@ -41,6 +38,11 @@
 								<p th:text="|${#numbers.formatInteger(m.cost,3,'COMMA')}원|">18,000원</p>
 							</div>
 							<img style="display:none;" class="list-img" src="img/네네치킨.jpg">
+							<form action="addCart" method="post">
+                            <input type="text" name="count"/>
+                            <input type="hidden" name="menuNo" th:value="${m.no}"/>
+                            <input type="submit">
+                        </form>
 						</div>
 					</li>
 				</ul>
@@ -60,6 +62,12 @@
 						<button class="btn btn-outline-dark"
 					style="color: white; border-style: solid; border-color: white;"
 					type="submit">초기화</button>
+					<ul th:if="${session.carts != null}" >
+                    <li style="    color: red;"
+                            th:each="om : ${session.carts.values()}" th:text="|${om.menu.menuName} ${om.count}|">
+                    </li>
+
+                </ul>
 				</div>
 			</div>
 

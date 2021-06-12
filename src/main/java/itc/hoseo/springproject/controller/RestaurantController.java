@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
-
 import itc.hoseo.springproject.domain.*;
 import itc.hoseo.springproject.domain.dto.CartDTO;
 import itc.hoseo.springproject.repository.MenuRepository;
@@ -21,62 +20,62 @@ import itc.hoseo.springproject.service.RestaurantService;
 @Controller
 public class RestaurantController {
 
-    @Autowired
-    private RestaurantService restaurantService;
+	@Autowired
+	private RestaurantService restaurantService;
 
-    @Autowired
-    private MenuRepository menuRepository;
-
-    @GetMapping("/res")
-    public String list(RestaurantCategory category, ModelMap mm) {
-        mm.put("list", restaurantService.findByCategory(category.getDesc()));
-        return "rest/list";
-    }
-
-    @GetMapping("/search")
-    public String list(String keyword, ModelMap mm) {
-        mm.put("list", restaurantService.findByMenuOrName(keyword));
-        return "rest/list";
-    }
-
-    @PostMapping("/addCart")
-    public String addCart(CartDTO dto, HttpSession session, ModelMap mm) {
-        if(session.getAttribute("carts") == null){            ;
-            session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
-        }
-        Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>)session.getAttribute("carts");
-
-        Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
-        OrderMenu orderMenu = new OrderMenu(menu, dto.getCount());
-
-        menuMap.put(dto.getMenuNo(), orderMenu);
-
-        return "redirect:/detail?shopNo=" + menu.getShopNo();
-    }
-
-    @GetMapping("/detail")
-    public String detail(@RequestParam int shopNo, ModelMap mm) {
-        Restaurant restaurant = restaurantService.findByShopNo(shopNo);
-        if(restaurant == null){
-            return "redirect:https://http.cat/404";
-        }
-        mm.put("res", restaurant);
-        return "rest/rest";
-    }
+	@Autowired
+	private MenuRepository menuRepository;
 
 
+	@GetMapping("/res")
+	public String list(RestaurantCategory category, ModelMap mm) {
+		mm.put("list", restaurantService.findByCategory(category.getDesc()));
+		return "rest/list";
+	}
 
-    @GetMapping("/shopList")
-    public String list(ModelMap mm) {
-        mm.put("restList", restaurantService.findAll());
-        return "rest/shopList.html";
-    }
+	@GetMapping("/search")
+	public String list(String keyword, ModelMap mm) {
+		mm.put("list", restaurantService.findByMenuOrName(keyword));
+		return "rest/list";
+	}
 
-    @GetMapping("/menuList")
-    public String listM(ModelMap mm) {
-        mm.put("menuList", restaurantService.findAllMenu());
-        return "rest/menuList.html";
-    }
+	@GetMapping("/detail")
+	public String detail(@RequestParam int shopNo, ModelMap mm) {
+		Restaurant restaurant = restaurantService.findByShopNo(shopNo);
+		if (restaurant == null) {
+			return "redirect:https://http.cat/404";
+		}
+		mm.put("res", restaurant);
+		return "rest/rest";
+	}
+
+	@PostMapping("/addCart")
+	public String addCart(CartDTO dto, HttpSession session, ModelMap mm) {
+		if (session.getAttribute("carts") == null) {
+			;
+			session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
+		}
+		Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
+
+		Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
+		OrderMenu orderMenu = new OrderMenu(menu, dto.getCount());
+
+		menuMap.put(dto.getMenuNo(), orderMenu);
+
+		return "redirect:/detail?shopNo=" + menu.getShopNo();
+	}
+
+	@GetMapping("/shopList")
+	public String list(ModelMap mm) {
+		mm.put("restList", restaurantService.findAll());
+		return "rest/shopList.html";
+	}
+
+	@GetMapping("/menuList")
+	public String listM(ModelMap mm) {
+		mm.put("menuList", restaurantService.findAllMenu());
+		return "rest/menuList.html";
+	}
 
 //	@GetMapping("/selectResult")
 //	public String listSM(ModelMap mm) {
@@ -85,10 +84,10 @@ public class RestaurantController {
 //		return "rest/selectResult.html";
 //	}
 
-    @GetMapping("/select")
-    public String select() {
-        return "rest/select.html";
-    }
+	@GetMapping("/select")
+	public String select() {
+		return "rest/select.html";
+	}
 
 //    @PostMapping("/search")
 //    public String search(
