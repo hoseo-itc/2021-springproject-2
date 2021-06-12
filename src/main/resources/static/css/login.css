@@ -1,0 +1,54 @@
+div,
+input,
+textarea {
+  box-sizing: border-box;
+}
+
+.from-background {
+  margin-top: 50px;
+  width: 100%;
+  padding: 50px;
+}
+
+.from-white {
+  width: 90%;
+  max-width: 700px;
+  padding: 20px;
+  background-color: white;
+  margin: auto;
+}
+
+.from-whole {
+  padding: 10px;
+}
+
+.from-input {
+  padding: 15px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: 1px solid lightgrey;
+  width: 100%;
+}
+
+.from-half {
+  width: 50%;
+  float: left;
+  padding: 10px;
+}
+
+.submit {
+  width: 200px;
+  border-radius: 4px;
+  border: none;
+  padding: 10px;
+  background-color: #212529;
+  color: white;
+  font-size: 18px;
+  margin-left: auto;
+  display: block;
+  margin-right: 10px;
+}
+
+body {
+	background-color: #212529;
+}

@@ -27,18 +27,19 @@
 
 
 			<form class="d-flex">
-				<div th:if="${session.email}==null">
-				<button class="btn btn-outline-dark" type="submit">
-					<a href="https://kauth.kakao.com/oauth/authorize?client_id=7720e2e195b7f09bf3215d501c9ffb09&redirect_uri=http://localhost:8080/auth&response_type=code">카카오로그인</a>
-				</button>
+				<div th:if="${session.loginStat}==null">
+					<button class="btn btn-outline-dark" type="submit">
+						<a
+							href="https://kauth.kakao.com/oauth/authorize?client_id=7720e2e195b7f09bf3215d501c9ffb09&redirect_uri=http://localhost:8080/auth&response_type=code">카카오로그인</a>
+					</button>
 				</div>
-				
-				<div th:unless="${session.email}==null">
-				<p th:utext="${session.email}"></p>
-				<button class="btn btn-outline-dark" type="submit">
-					<a href="">로그아웃</a>
-				</button>
-				
+
+				<div th:unless="${session.loginStat}==null">
+					<p th:utext="${session.email}"></p>
+					<button class="btn btn-outline-dark" type="submit">
+						<a href="/logout">로그아웃</a>
+					</button>
+
 				</div>
 			</form>
 		</div>

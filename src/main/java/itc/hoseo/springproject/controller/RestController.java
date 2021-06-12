@@ -88,7 +88,6 @@ public class RestController {
     public String select() {
         return "rest/select.html";
     }
-
     @PostMapping("/search")
     public String search(
             ModelMap mm,

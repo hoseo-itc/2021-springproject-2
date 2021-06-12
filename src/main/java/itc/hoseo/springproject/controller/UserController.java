@@ -50,21 +50,21 @@ public class UserController {
 
 	@Autowired
 	private KakaoLoginService kakaoLoginService;
-	
+
 	@GetMapping("/join")
 	public String joinForm() {
 		return "user/join";
 	}
-	
+
 	@GetMapping("/addressMap")
 	public String addressMap() {
 		return "user/addressMap";
 	}
-	
+
 	@PostMapping("/join")
 	public String join(UserJoinFormDTO form) {
 		userService.join(form.getUser());
-		return "redirect:/list";
+		return "redirect:/";
 	}
 
 	@GetMapping("/list")
@@ -73,34 +73,39 @@ public class UserController {
 		return "user/list";
 	}
 
-	
 	@GetMapping("/userProfile")
 	public String userProfile(HttpSession session, ModelMap mm) {
-		
-		return "user/userProfile";
+		return "user/profile";
 	}
+
 	@PostMapping("/userProfile")
 	public String kakaojoin(UserJoinFormDTO form) {
 		userService.join(form.getUser());
 		return "redirect:/";
 	}
+
 	@GetMapping("/login")
-	public String userLogin(){
-		
+	public String userLogin() {
 		return "user/login";
 	}
-	
+
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/";
+	}
+
 	@GetMapping("/auth")
 	public String kakaoCallback(String code, HttpSession session) throws JsonMappingException, JsonProcessingException {
 		String accessToken = kakaoLoginService.getKakaoAccessToken(code).toString();
-		
+
 		session.setAttribute("email", kakaoLoginService.kakaoLogin(accessToken).getEmail());
 		session.setAttribute("imgUrl", kakaoLoginService.kakaoLogin(accessToken).getImgUrl());
 		session.setAttribute("nickName", kakaoLoginService.kakaoLogin(accessToken).getNickName());
-		
+
 		if (userService.login(String.valueOf(session.getAttribute("email"))) == true) {
-			System.out.println(session.getAttribute("email"));
-			return "redirect:/list";
+			session.setAttribute("loginStat", "on");
+			return "redirect:/";
 		} else {
 			return "redirect:/userProfile";
 		}
