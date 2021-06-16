@@ -52,7 +52,6 @@ public class RestaurantController {
 	@PostMapping("/addCart")
 	public String addCart(CartDTO dto, HttpSession session, ModelMap mm) {
 		if (session.getAttribute("carts") == null) {
-			;
 			session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
 		}
 		Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
