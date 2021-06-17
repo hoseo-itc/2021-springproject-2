@@ -8,7 +8,10 @@ import javax.servlet.http.HttpSession;
 import itc.hoseo.springproject.domain.*;
 import itc.hoseo.springproject.domain.dto.CartDTO;
 import itc.hoseo.springproject.repository.MenuRepository;
+
+import org.junit.platform.commons.annotation.Testable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +21,10 @@ import org.springframework.web.client.HttpClientErrorException.BadRequest;
 
 import itc.hoseo.springproject.service.RestaurantService;
 
+@SpringBootTest
 @Controller
-public class RestaurantController {
+@Testable
+public class RestaurantControllerTest {
 
 	@Autowired
 	private RestaurantService restaurantService;
