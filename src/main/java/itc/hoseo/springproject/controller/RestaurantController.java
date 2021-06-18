@@ -48,38 +48,30 @@ public class RestaurantController {
 		mm.put("res", restaurant);
 		return "rest/rest";
 	}
-	
+
 	@PostMapping("/addCart")
-	public String addCart(CartDTO dto, HttpSession session, ModelMap mm) throws Exception {
+	public String addCart(CartDTO dto, HttpSession session, ModelMap mm) {
 		if (dto.getCount() == 0) {
 			return "redirect:https://http.cat/404";
 		} else {
 			if (session.getAttribute("carts") == null) {
 				session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
 			}
-			Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
 
+			Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
 			Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
 			OrderMenu orderMenu = new OrderMenu(menu, dto.getCount());
 
-//				menuMap.put(dto.getMenuNo(), orderMenu);
-			
 			if (menuMap.isEmpty()) {
 				menuMap.put(dto.getMenuNo(), orderMenu);
-			} else {
-				for (Integer key : menuMap.keySet()) {
-					System.out.println("key : " + key + ", value : " + menuMap.get(key));
-
-					if (key == dto.getMenuNo()) {
-						int a = orderMenu.getCount();
-						OrderMenu orderMenuN= new OrderMenu(menu,a+dto.getCount());
-						menuMap.put(dto.getMenuNo(), orderMenuN);
-//						a = 0 ;
-					}
-					else {
-						break;
-					}
-				}
+				// 객체가 없거나
+			} else if(menuMap.containsKey(orderMenu.getMenu().getNo())){
+				int oldPoint = 0;
+				oldPoint = (menuMap.get(orderMenu.getMenu().getNo()).getCount());
+				OrderMenu ord = new OrderMenu(menu, oldPoint+dto.getCount());
+				menuMap.put(orderMenu.getMenu().getNo(),ord);
+			
+			}else {
 				menuMap.put(dto.getMenuNo(), orderMenu);
 			}
 			return "redirect:/detail?shopNo=" + menu.getShopNo();
