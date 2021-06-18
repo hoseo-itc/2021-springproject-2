@@ -54,7 +54,7 @@
 			<div class="order" style="margin-left: 0%;">
 				<div class="order-title">
 					<span style="color: white;">주문표</span>
-					<form action="resetCart" method="post">
+					<form action="resetCart" get="post">
 						<button class="btn btn-outline-dark"
 							style="color: white; border-style: solid; border-color: white;"
 							type="submit">초기화</button>
@@ -62,7 +62,8 @@
 				</div>
 				<ul th:if="${session.carts != null}">
 					<li style="color: red;" th:each="om : ${session.carts.values()}"
-						th:text="|${om.menu.menuName}   ${om.count}|"></li>
+						th:text="|${om.menu.menuName}   ${om.count} ${#numbers.formatInteger(om.cost,3,'COMMA')}원 |"></li>
+					<!--  <li></li>  합계-->
 				</ul>
 			</div>
 		</div>

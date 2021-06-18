@@ -60,29 +60,30 @@ public class RestaurantController {
 
 			Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
 			Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
-			OrderMenu orderMenu = new OrderMenu(menu, dto.getCount());
+			OrderMenu orderMenu = new OrderMenu(menu, dto.getCount(), (dto.getCount() * menu.getCost()));
 
 			if (menuMap.isEmpty()) {
 				menuMap.put(dto.getMenuNo(), orderMenu);
-				// 객체가 없거나
+				// 객체가 없을 때
 			} else if(menuMap.containsKey(orderMenu.getMenu().getNo())){
+				//중복된 객체가 있다면
 				int oldPoint = 0;
-				oldPoint = (menuMap.get(orderMenu.getMenu().getNo()).getCount());
-				OrderMenu ord = new OrderMenu(menu, oldPoint+dto.getCount());
-				menuMap.put(orderMenu.getMenu().getNo(),ord);
-			
+				oldPoint = menuMap.get(orderMenu.getMenu().getNo()).getCount();
+				
+				OrderMenu ord = new OrderMenu(menu, oldPoint+dto.getCount(), (oldPoint+dto.getCount()) * menu.getCost());
+				menuMap.put(orderMenu.getMenu().getNo(),ord);	
 			}else {
 				menuMap.put(dto.getMenuNo(), orderMenu);
+				//새로운 객체일 경우
 			}
 			return "redirect:/detail?shopNo=" + menu.getShopNo();
 		}
 	}
 
-//	@PostMapping("/rsetCart")
-//	public String rsetCart(HttpSession session) {
-//		session.invalidate();
-//		return "redirect:/detail?shopNo=" + menu.getShopNo();
-//	}
+	@GetMapping("/resetCart")
+	public void rsetCart(HttpSession session) {
+		session.invalidate();
+	}
 
 	@GetMapping("/shopList")
 	public String list(ModelMap mm) {
@@ -107,21 +108,4 @@ public class RestaurantController {
 	public String select() {
 		return "rest/select.html";
 	}
-
-//    @PostMapping("/search")
-//    public String search(
-//            ModelMap mm,
-//            @RequestParam("input") String str,
-//            @RequestParam("option") int opt,
-//            HttpSession session) {
-//        if (opt == 1) {
-//            session.setAttribute("restList", restaurantService.findByShopName(str));
-//            mm.put("restList", restaurantService.findByShopName(str));
-//        } else {
-//            session.setAttribute("menuList", restaurantService.findByMenuName(str));
-//            mm.put("menuList", restaurantService.findByMenuName(str));
-//        }
-//        return "redirect:/selectResult";
-//    }
-
 }

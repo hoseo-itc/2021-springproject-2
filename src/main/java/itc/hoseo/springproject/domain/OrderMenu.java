@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class OrderMenu {
     private Menu menu;
     private int count;
+    private int cost; //해당 메뉴에 수량에 따른 가격을 저장.
 }
