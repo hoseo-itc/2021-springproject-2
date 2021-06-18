@@ -45,3 +45,13 @@ CREATE TABLE MENU (
   cost int not null,
   primary key(no)
 )
+
+CREATE TABLE ORDER_HIS (
+  hisno int not null auto_increment,
+  date timestamp with time zone not null default now(),
+  shopno varchar(255) not null,
+  customeraddress varchar(255) not null,
+  customerphone varchar(15) not null,
+  allcost int not null,
+  primary key(his_no)
+);

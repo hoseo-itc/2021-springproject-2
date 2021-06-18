@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class OrderMenu {
     private Menu menu;
     private int count;
+    private int cost;
 }

@@ -36,10 +36,12 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import itc.hoseo.springproject.domain.Order;
 import itc.hoseo.springproject.domain.User;
 import itc.hoseo.springproject.domain.dto.UserJoinFormDTO;
 import itc.hoseo.springproject.repository.UserRepository;
 import itc.hoseo.springproject.service.KakaoLoginService;
+import itc.hoseo.springproject.service.OrderService;
 import itc.hoseo.springproject.service.UserService;
 
 @Controller
@@ -51,6 +53,8 @@ public class UserController {
 	@Autowired
 	private KakaoLoginService kakaoLoginService;
 
+	
+	
 	@GetMapping("/join")
 	public String joinForm() {
 		return "user/join";
@@ -83,6 +87,8 @@ public class UserController {
 		userService.join(form.getUser());
 		return "redirect:/";
 	}
+	
+	
 
 	@GetMapping("/login")
 	public String userLogin() {

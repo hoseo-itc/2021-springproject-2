@@ -6,8 +6,8 @@
 	<div class="row" style="margin: 0px 10px 0px 10px;">
 		<div class="col-md-8">
 			<div class="test-rest">
-				<img class="thumbnail" th:src="${res.thumbnail_photo}" src="img/네네치킨.jpg"
-					style="width: 100px; height: 100px;">
+				<img class="thumbnail" th:src="${res.thumbnail_photo}"
+					src="img/네네치킨.jpg" style="width: 100px; height: 100px;">
 				<div class="blog-user">
 					<h5 class="Restaurant-name" th:text="${res.shop_name}">네네치킨</h5>
 					<p class="review">★4.9(345)</p>
@@ -34,15 +34,14 @@
 					<li class="menu-list" th:each="m : ${res.menus}">
 						<div class="menu-list-fra">
 							<div class="menu-list-text">
-								<h5 th:text="${m.menuName}">후라이드</h5>
-								<p th:text="|${#numbers.formatInteger(m.cost,3,'COMMA')}원|">18,000원</p>
+								<h5 th:text="${m.menuName}"/>
+								<p th:text="|${#numbers.formatInteger(m.cost,3,'COMMA')}원|"/>
 							</div>
-							<img style="display:none;" class="list-img" src="img/네네치킨.jpg">
+							<img style="display: none;" class="list-img" src="img/네네치킨.jpg">
 							<form action="addCart" method="post">
-                            <input type="text" name="count"/>
-                            <input type="hidden" name="menuNo" th:value="${m.no}"/>
-                            <input type="submit">
-                        </form>
+								<input type="text" name="count" /> <input type="hidden"
+									name="menuNo" th:value="${m.no}" /> <input type="submit">
+							</form>
 						</div>
 					</li>
 				</ul>
@@ -55,52 +54,46 @@
 
 
 		<div class="col-md-4">
-
 			<div class="order" style="margin-left: 0%;">
 				<div class="order-title">
 					<span style="color: white;">주문표</span>
+					<form action="resetCart" method="post">
 						<button class="btn btn-outline-dark"
-					style="color: white; border-style: solid; border-color: white;"
-					type="submit">초기화</button>
-					<ul th:if="${session.carts != null}" >
-                    <li style="    color: red;"
-                            th:each="om : ${session.carts.values()}" th:text="|${om.menu.menuName} ${om.count}|">
-                    </li>
-
-                </ul>
+							style="color: white; border-style: solid; border-color: white;"
+							type="submit"><a href="/pay">주문하기</a></button>
+					</form>
 				</div>
+				<ul th:if="${session.carts != null}">
+					<li style="color: red;" th:each="om : ${session.carts.values()}"
+						th:text="|${om.menu.menuName}   ${om.count} ${#numbers.formatInteger(om.cost,3,'COMMA')}원 |"></li>
+				</ul>
 			</div>
-
 		</div>
 	</div>
 
 
 
 
+	<script>
+		$('.ch-pop').click(function() {
+			$('.menu-fra').slideToggle();
+		})
 
+		$('.ch-pop1').click(function() {
+			$('.menu-fra1').slideToggle();
+		})
 
+		$('.ch-pop2').click(function() {
+			$('.menu-fra2').slideToggle();
+		})
+		$('.infor-menu').click(function() {
+			$('.res-menu').css("display", "block");
+		})
 
-
-
-<script>
-	$('.ch-pop').click(function(){
-		$('.menu-fra').slideToggle();
-	})
-	
-	$('.ch-pop1').click(function(){
-		$('.menu-fra1').slideToggle();
-	})
-	
-	$('.ch-pop2').click(function(){
-		$('.menu-fra2').slideToggle();
-	})
-	$('.infor-menu').click(function(){
 		$('.res-menu').css("display", "block");
-	})
+		$('.menu-fra').slideToggle();
+	</script>
 
-	$('.res-menu').css("display", "block");
-	$('.menu-fra').slideToggle();
-</script>
 
 	<!-- Bootstrap core JS-->
 	<script

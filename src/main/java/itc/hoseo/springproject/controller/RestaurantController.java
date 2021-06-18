@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import itc.hoseo.springproject.domain.*;
 import itc.hoseo.springproject.domain.dto.CartDTO;
+import itc.hoseo.springproject.domain.dto.OrderDTO;
 import itc.hoseo.springproject.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import itc.hoseo.springproject.service.OrderService;
 import itc.hoseo.springproject.service.RestaurantService;
 
 @Controller
@@ -25,12 +27,19 @@ public class RestaurantController {
 
 	@Autowired
 	private MenuRepository menuRepository;
-
+	@Autowired
+	private OrderService orderService;
 
 	@GetMapping("/res")
 	public String list(RestaurantCategory category, ModelMap mm) {
 		mm.put("list", restaurantService.findByCategory(category.getDesc()));
 		return "rest/list";
+	}
+
+	@PostMapping("/kakaopay")
+	public String kakapay(OrderDTO order) {
+		orderService.save(order);
+		return "redirect:/";
 	}
 
 	@GetMapping("/search")
@@ -40,8 +49,9 @@ public class RestaurantController {
 	}
 
 	@GetMapping("/detail")
-	public String detail(@RequestParam int shopNo, ModelMap mm) {
+	public String detail(@RequestParam int shopNo, ModelMap mm,HttpSession session) {
 		Restaurant restaurant = restaurantService.findByShopNo(shopNo);
+		session.setAttribute("shopId", shopNo);
 		if (restaurant == null) {
 			return "redirect:https://http.cat/404";
 		}
@@ -49,20 +59,44 @@ public class RestaurantController {
 		return "rest/rest";
 	}
 
+	@GetMapping("/pay")
+	public String detail(HttpSession session) {
+		if (session.getAttribute("carts") == null) {
+			return "redirect:https://http.cat/404";
+		}
+		return "rest/pay";
+	}
+
 	@PostMapping("/addCart")
 	public String addCart(CartDTO dto, HttpSession session, ModelMap mm) {
-		if (session.getAttribute("carts") == null) {
-			;
-			session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
+		if (dto.getCount() == 0) {
+			return "redirect:https://http.cat/404";
+		} else {
+			if (session.getAttribute("carts") == null) {
+				session.setAttribute("carts", new HashMap<Integer, OrderMenu>());
+			}
+
+			Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
+			Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
+			OrderMenu orderMenu = new OrderMenu(menu, dto.getCount(), (dto.getCount() * menu.getCost()));
+
+			if (menuMap.isEmpty()) {
+				menuMap.put(dto.getMenuNo(), orderMenu);
+				// 객체가 없을 때
+			} else if (menuMap.containsKey(orderMenu.getMenu().getNo())) {
+				// 중복된 객체가 있다면
+				int oldPoint = 0;
+				oldPoint = menuMap.get(orderMenu.getMenu().getNo()).getCount();
+
+				OrderMenu ord = new OrderMenu(menu, oldPoint + dto.getCount(),
+						(oldPoint + dto.getCount()) * menu.getCost());
+				menuMap.put(orderMenu.getMenu().getNo(), ord);
+			} else {
+				menuMap.put(dto.getMenuNo(), orderMenu);
+				// 새로운 객체일 경우
+			}
+			return "redirect:/detail?shopNo=" + menu.getShopNo();
 		}
-		Map<Integer, OrderMenu> menuMap = (Map<Integer, OrderMenu>) session.getAttribute("carts");
-
-		Menu menu = menuRepository.findByMenuNo(dto.getMenuNo());
-		OrderMenu orderMenu = new OrderMenu(menu, dto.getCount());
-
-		menuMap.put(dto.getMenuNo(), orderMenu);
-
-		return "redirect:/detail?shopNo=" + menu.getShopNo();
 	}
 
 	@GetMapping("/shopList")

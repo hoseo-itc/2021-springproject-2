@@ -1,11 +1,10 @@
-package itc.hoseo.springproject.domain;
+package itc.hoseo.springproject.domain.dto;
 
+import itc.hoseo.springproject.domain.Restaurant;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class Order {
+public class OrderDTO {
 	private int hisNo;
 	private String date;
 	private String shopNo;
@@ -14,22 +13,14 @@ public class Order {
 	private int allCost;
 	private String menu;
 	private int menuCost;
-    private List<OrderMenu> orderMenuList;
-    
 
-	public Order() {
+	public OrderDTO() {
 	}
 
-	public Order(String shopNo, String customerAddress, String customerPhone, int allCost) {
+	public OrderDTO(String shopNo, String address,String detailAddress, String customerPhone, int allCost) {
 		this.shopNo = shopNo;
-		this.customerAddress = customerAddress;
+		this.customerAddress = customerAddress + detailAddress;
 		this.customerPhone = customerPhone;
 		this.allCost = allCost;
 	}
-
-
-
-
-    
-    
 }
