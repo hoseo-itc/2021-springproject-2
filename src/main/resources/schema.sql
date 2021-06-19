@@ -47,7 +47,7 @@ CREATE TABLE MENU (
 )
 
 CREATE TABLE ORDER_HIS (
-  hisno int not null auto_increment,
+  his_no int not null auto_increment,
   date timestamp with time zone not null default now(),
   shopno varchar(255) not null,
   customeraddress varchar(255) not null,
